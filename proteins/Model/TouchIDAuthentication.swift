@@ -20,6 +20,11 @@ class BiometricIDAuth {
         case faceID
     }
     
+    enum Response {
+        case success
+        case error
+    }
+    
     func canEvaluate() -> Bool {
         return context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: nil)
     }
@@ -39,17 +44,15 @@ class BiometricIDAuth {
         }
     }
     
-    func authenticateUser(completion: @escaping (String) -> Void) {
+    func authenticateUser(completion: @escaping (Response) -> Void) {
         guard canEvaluate() else {
             return
         }
         context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { (success, error) in
             if success {
-                DispatchQueue.main.async {
-                    completion("Completed")
-                }
+                completion(.success)
             } else {
-                completion("fail")
+                completion(.error)
             }
         }
     }

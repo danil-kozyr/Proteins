@@ -31,6 +31,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        let mainStoryboardIpad : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let initialViewControlleripad : UIViewController = mainStoryboardIpad.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
+        let navigationController = UINavigationController(rootViewController: initialViewControlleripad)
+        navigationController.navigationBar.isTranslucent = false
+        self.window?.rootViewController = navigationController
+        self.window?.makeKeyAndVisible()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {

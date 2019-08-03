@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5513776322F59FED00F976AF /* ProteinsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5513776222F59FED00F976AF /* ProteinsVC.swift */; };
+		5513776522F5A8E700F976AF /* ligands.txt in Resources */ = {isa = PBXBuildFile; fileRef = 5513776422F5A8E700F976AF /* ligands.txt */; };
+		5513776722F5B37400F976AF /* FileReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5513776622F5B37400F976AF /* FileReader.swift */; };
+		5513776E22F5B93E00F976AF /* LigandCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5513776C22F5B93E00F976AF /* LigandCell.swift */; };
+		5513776F22F5B93E00F976AF /* LigandCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5513776D22F5B93E00F976AF /* LigandCell.xib */; };
+		5513777122F5CD5600F976AF /* ProteinSceneVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5513777022F5CD5600F976AF /* ProteinSceneVC.swift */; };
 		55456A0E22F47E0900F585B0 /* TouchIDAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55456A0D22F47E0900F585B0 /* TouchIDAuthentication.swift */; };
 		55A118A022F46D3900ACEF4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A1189F22F46D3900ACEF4F /* AppDelegate.swift */; };
 		55A118A222F46D3900ACEF4F /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A118A122F46D3900ACEF4F /* HomeVC.swift */; };
@@ -17,6 +23,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5513776222F59FED00F976AF /* ProteinsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinsVC.swift; sourceTree = "<group>"; };
+		5513776422F5A8E700F976AF /* ligands.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ligands.txt; sourceTree = "<group>"; };
+		5513776622F5B37400F976AF /* FileReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReader.swift; sourceTree = "<group>"; };
+		5513776C22F5B93E00F976AF /* LigandCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LigandCell.swift; sourceTree = "<group>"; };
+		5513776D22F5B93E00F976AF /* LigandCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LigandCell.xib; sourceTree = "<group>"; };
+		5513777022F5CD5600F976AF /* ProteinSceneVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProteinSceneVC.swift; sourceTree = "<group>"; };
 		55456A0D22F47E0900F585B0 /* TouchIDAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TouchIDAuthentication.swift; sourceTree = "<group>"; };
 		55A1189C22F46D3900ACEF4F /* proteins.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = proteins.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55A1189F22F46D3900ACEF4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +51,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5513776922F5B8E200F976AF /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				55A118A322F46D3900ACEF4F /* Main.storyboard */,
+				55A118A822F46D3B00ACEF4F /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		5513776A22F5B8EC00F976AF /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				55A118B522F46ED900ACEF4F /* RoundedButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
+		5513776B22F5B8F600F976AF /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				5513776C22F5B93E00F976AF /* LigandCell.swift */,
+				5513776D22F5B93E00F976AF /* LigandCell.xib */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		55A1189322F46D3900ACEF4F = {
 			isa = PBXGroup;
 			children = (
@@ -64,6 +102,7 @@
 				55A1189F22F46D3900ACEF4F /* AppDelegate.swift */,
 				55A118A622F46D3B00ACEF4F /* Assets.xcassets */,
 				55A118AB22F46D3B00ACEF4F /* Info.plist */,
+				5513776422F5A8E700F976AF /* ligands.txt */,
 			);
 			path = proteins;
 			sourceTree = "<group>";
@@ -72,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				55456A0D22F47E0900F585B0 /* TouchIDAuthentication.swift */,
+				5513776622F5B37400F976AF /* FileReader.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -79,9 +119,9 @@
 		55A118B222F46D5200ACEF4F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				55A118A322F46D3900ACEF4F /* Main.storyboard */,
-				55A118A822F46D3B00ACEF4F /* LaunchScreen.storyboard */,
-				55A118B522F46ED900ACEF4F /* RoundedButton.swift */,
+				5513776B22F5B8F600F976AF /* Cells */,
+				5513776A22F5B8EC00F976AF /* Buttons */,
+				5513776922F5B8E200F976AF /* Storyboards */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -90,6 +130,8 @@
 			isa = PBXGroup;
 			children = (
 				55A118A122F46D3900ACEF4F /* HomeVC.swift */,
+				5513776222F59FED00F976AF /* ProteinsVC.swift */,
+				5513777022F5CD5600F976AF /* ProteinSceneVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -155,6 +197,8 @@
 				55A118AA22F46D3B00ACEF4F /* LaunchScreen.storyboard in Resources */,
 				55A118A722F46D3B00ACEF4F /* Assets.xcassets in Resources */,
 				55A118A522F46D3900ACEF4F /* Main.storyboard in Resources */,
+				5513776F22F5B93E00F976AF /* LigandCell.xib in Resources */,
+				5513776522F5A8E700F976AF /* ligands.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,10 +209,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5513776722F5B37400F976AF /* FileReader.swift in Sources */,
 				55A118A222F46D3900ACEF4F /* HomeVC.swift in Sources */,
 				55A118B622F46ED900ACEF4F /* RoundedButton.swift in Sources */,
+				5513776322F59FED00F976AF /* ProteinsVC.swift in Sources */,
+				5513776E22F5B93E00F976AF /* LigandCell.swift in Sources */,
 				55456A0E22F47E0900F585B0 /* TouchIDAuthentication.swift in Sources */,
 				55A118A022F46D3900ACEF4F /* AppDelegate.swift in Sources */,
+				5513777122F5CD5600F976AF /* ProteinSceneVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

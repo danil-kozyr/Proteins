@@ -8,16 +8,29 @@
 
 import UIKit
 
+// TODO: The LoginViewController should ALWAYS be displayed when launching
+// the app meaning if you press the Home button and relaunch the app whitout
+// quitting it, it should show the LoginViewController !
 
 class HomeVC: UIViewController {
 
     let touchID = BiometricIDAuth()
     
     @IBOutlet weak var loginButton: RoundButton!
+    @IBOutlet weak var label: UILabel!
     
     @IBAction func loginTapped(_ sender: RoundButton) {
         touchID.authenticateUser { (result) in
-            print("success")
+            switch result {
+            case .success:
+                DispatchQueue.main.sync {
+                    let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ProteinsVC") as! ProteinsVC
+                    self.navigationController?.pushViewController(nextVC, animated: true)
+                }
+            case .error:
+                // TODO: PopUp warning authentication failed
+                print("popup warning authentication failed")
+            }
         }
     }
     
@@ -26,19 +39,19 @@ class HomeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        loginButton.isHidden = !touchID.canEvaluate()
         
-//        let image = UIImage(
+        self.navigationController?.navigationBar.tintColor = .black
+        
+        print(self.navigationController?.viewControllers.first)
+        
+        loginButton.isHidden = !touchID.canEvaluate()
         
         switch touchID.authorizationType() {
         case .faceID:
-            print("faceID")
-            loginButton.setImage(UIImage(named: "354"), for: .normal)
+            loginButton.setImage(UIImage(named: "faceID"), for: .normal)
         case .touchID:
-            print("touchID")
-            loginButton.setImage(UIImage(named: "354"), for: .normal)
+            loginButton.setImage(UIImage(named: "touchID"), for: .normal)
         case .none:
-            print("none")
             loginButton.isHidden = true
         }
         

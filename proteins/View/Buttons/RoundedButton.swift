@@ -29,3 +29,25 @@ class RoundButton: UIButton {
         }
     }
 }
+
+@IBDesignable
+class RoundView: UIView {
+    
+    @IBInspectable var cornerRadius: CGFloat = 0 {
+        didSet {
+            self.layer.cornerRadius = cornerRadius
+        }
+    }
+
+//    containerView.layer.shadowOpacity = 1
+//    containerView.layer.shadowRadius = 2
+//    containerView.layer.shadowColor = UIColor(named: "Orange")?.cgColor
+    
+    
+//    @IBInspectable var cornerRadius: CGFloat = 0 {
+//        didSet {
+//            self.layer.cornerRadius = cornerRadius
+//        }
+//    }
+    
+}
