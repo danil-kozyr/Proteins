@@ -19,7 +19,8 @@ class ProteinsVC: UIViewController {
     private var list: [String] = []
     private var filteredData: [String] = []
     private let fileReader = FileReader()
-    
+    private var downloader = RCSBDownloader()
+
     @IBOutlet weak var tableView: UITableView! {
         didSet {
             tableView.dataSource = self
@@ -49,14 +50,38 @@ class ProteinsVC: UIViewController {
             return
         }
     }
+    
 }
 
 extension ProteinsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ProteinSceneVC") as! ProteinSceneVC
-        nextVC.ligand = filteredData[indexPath.row]
-        self.navigationController?.pushViewController(nextVC, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
+        let activityView = UIActivityIndicatorView(style: .white)
+        activityView.center = self.view.center
+        activityView.startAnimating()
+        view.addSubview(activityView)
+        
+        downloader.downloadConnections(for: filteredData[indexPath.row]) { [unowned self] (result) in
+            switch result {
+            case .success(let atoms, let connections):
+                DispatchQueue.main.async {
+                    let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ProteinSceneVC") as! ProteinSceneVC
+
+                    tableView.deselectRow(at: indexPath, animated: true)
+                    activityView.stopAnimating()
+
+                    nextVC.ligand = self.filteredData[indexPath.row]
+                    nextVC.connections = connections
+                    nextVC.atoms = atoms
+                    self.navigationController?.pushViewController(nextVC, animated: true)
+                }
+            case .error:
+                // TODO: Error
+                tableView.deselectRow(at: indexPath, animated: true)
+                print("Error")
+            }
+        }
+        
+        
     }
     
 }

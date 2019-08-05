@@ -111,9 +111,24 @@
                     <view key="view" contentMode="scaleToFill" id="SKg-iA-crq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preferredRenderingAPI="2" translatesAutoresizingMaskIntoConstraints="NO" id="nhD-dc-XoP">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
+                                <color key="backgroundColor" red="0.75920050760000002" green="0.71415409910000005" blue="0.6555059781" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </sceneKitView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="nhD-dc-XoP" firstAttribute="top" secondItem="ZaK-HV-BES" secondAttribute="top" id="L9L-7W-vdp"/>
+                            <constraint firstItem="ZaK-HV-BES" firstAttribute="trailing" secondItem="nhD-dc-XoP" secondAttribute="trailing" id="Pjy-Na-44d"/>
+                            <constraint firstItem="ZaK-HV-BES" firstAttribute="bottom" secondItem="nhD-dc-XoP" secondAttribute="bottom" id="YAN-np-6Pa"/>
+                            <constraint firstItem="nhD-dc-XoP" firstAttribute="leading" secondItem="ZaK-HV-BES" secondAttribute="leading" id="i5T-gz-BOa"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="ZaK-HV-BES"/>
                     </view>
+                    <connections>
+                        <outlet property="sceneKit" destination="nhD-dc-XoP" id="zyR-Hf-kef"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nsc-Ox-K0H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

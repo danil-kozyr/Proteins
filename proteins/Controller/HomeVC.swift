@@ -42,10 +42,10 @@ class HomeVC: UIViewController {
         
         self.navigationController?.navigationBar.tintColor = .black
         
-        print(self.navigationController?.viewControllers.first)
+//        print(self.navigationController?.navigationBar.backgroundColor)
         
         loginButton.isHidden = !touchID.canEvaluate()
-        
+    
         switch touchID.authorizationType() {
         case .faceID:
             loginButton.setImage(UIImage(named: "faceID"), for: .normal)
@@ -54,8 +54,9 @@ class HomeVC: UIViewController {
         case .none:
             loginButton.isHidden = true
         }
-        
     }
+    
+
 
 
 }

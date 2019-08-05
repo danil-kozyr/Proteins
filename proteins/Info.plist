@@ -43,5 +43,7 @@
 	</array>
 	<key>NSFaceIDUsageDescription</key>
 	<string></string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string></string>
 </dict>
 </plist>

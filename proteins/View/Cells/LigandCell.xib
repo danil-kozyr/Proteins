@@ -43,7 +43,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
-                <color key="backgroundColor" red="0.13333333333333333" green="0.15686274509803921" blue="0.19215686274509802" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" red="0.13333333333333333" green="0.15686274509803921" blue="0.19215686274509802" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstItem="LZS-3j-ICm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="BHm-o5-xm3"/>
                     <constraint firstAttribute="trailing" secondItem="LZS-3j-ICm" secondAttribute="trailing" constant="10" id="GGn-XI-sjt"/>
