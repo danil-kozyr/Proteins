@@ -14,6 +14,7 @@ class BiometricIDAuth {
  
     let context = LAContext()
     var reason = String()
+    
     enum BiometryType {
         case none
         case touchID

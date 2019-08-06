@@ -7,6 +7,7 @@ target 'proteins' do
 
   # Pods for proteins
 pod 'Alamofire'
+pod 'SwiftyJSON'
 
 
 end

@@ -15,7 +15,7 @@ class RCSBDownloader {
     private let urlExtension = "_ideal.pdb"
 
     enum ResponseCases {
-        case error
+        case error(String)
         case success([Atom], [Connections])
     }
     
@@ -25,19 +25,20 @@ class RCSBDownloader {
     
         Alamofire.request(url!).response { (response) in
             guard response.error == nil else {
-                // TODO: Error
+                completion(.error("Server Error Occured.\n Check Internet Connection and try again!"))
                 return
             }
             
             guard let data = response.data else {
-                // TODO: Error
+                completion(.error("Server Error Occured."))
                 return
             }
             
             guard let encodedData = String(data: data, encoding: .utf8) else {
-                // TODO: Error
+                completion(.error("Server Error Occured."))
                 return
             }
+            
             var atoms: [Atom] = []
             
             let dataWithOneSpace = encodedData.condensedWhitespace
@@ -51,11 +52,11 @@ class RCSBDownloader {
             for element in elementsOfAtom {
                 let id = Int(element[1])
                 let name = element[2]
-                let x = Double(element[6])!
-                let y = Double(element[7])!
-                let z = Double(element[8])!
+                let x = Float(element[6])!
+                let y = Float(element[7])!
+                let z = Float(element[8])!
                 let type = element[11]
-                
+                                
                 atoms.append(Atom(name: name,
                                   id: id!,
                                   x: x,
@@ -90,9 +91,3 @@ class RCSBDownloader {
 
 }
 
-extension String {
-    var condensedWhitespace: String {
-        let components = self.components(separatedBy: .whitespaces)
-        return components.filter { !$0.isEmpty }.joined(separator: " ")
-    }
-}

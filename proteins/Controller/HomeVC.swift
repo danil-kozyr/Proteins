@@ -8,19 +8,14 @@
 
 import UIKit
 
-// TODO: The LoginViewController should ALWAYS be displayed when launching
-// the app meaning if you press the Home button and relaunch the app whitout
-// quitting it, it should show the LoginViewController !
-
 class HomeVC: UIViewController {
 
     let touchID = BiometricIDAuth()
-    
+        
     @IBOutlet weak var loginButton: RoundButton!
-    @IBOutlet weak var label: UILabel!
     
     @IBAction func loginTapped(_ sender: RoundButton) {
-        touchID.authenticateUser { (result) in
+        touchID.authenticateUser { [unowned self] (result) in
             switch result {
             case .success:
                 DispatchQueue.main.sync {
@@ -28,36 +23,40 @@ class HomeVC: UIViewController {
                     self.navigationController?.pushViewController(nextVC, animated: true)
                 }
             case .error:
-                // TODO: PopUp warning authentication failed
-                print("popup warning authentication failed")
+                let alert = UIAlertController().createAlert(title: "Authentication Failed", message: "Please authorize using\nFaceID or TouchID", action: "Ok")
+                self.present(alert, animated: true)
+                return
             }
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationController?.navigationBar.isHidden = true
+    }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.navigationController?.navigationBar.isHidden = false
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
-        self.navigationController?.navigationBar.tintColor = .black
-        
-//        print(self.navigationController?.navigationBar.backgroundColor)
+        view.setGradientColor(colorOne: UIColor.Application.darkBlue,
+                              colorTwo: UIColor.Application.lightBlue)
         
         loginButton.isHidden = !touchID.canEvaluate()
-    
+        
         switch touchID.authorizationType() {
         case .faceID:
-            loginButton.setImage(UIImage(named: "faceID"), for: .normal)
+            loginButton.setTitle("Login via faceID", for: .normal)
         case .touchID:
-            loginButton.setImage(UIImage(named: "touchID"), for: .normal)
+            loginButton.setTitle("Login via touchID", for: .normal)
         case .none:
             loginButton.isHidden = true
         }
     }
-    
-
-
-
+        
 }
 

@@ -8,11 +8,7 @@
 
 import UIKit
 
-// TODO: List all the ligands provided in ligands.txt (see resources)
-// TODO: You should be able to search a ligand through the list
-// TODO: If you cannot load the ligand through the website display a warning popup
 // TODO: When loading the ligand you should display the spinning wheel of the activity monitor
-
 
 class ProteinsVC: UIViewController {
 
@@ -31,10 +27,19 @@ class ProteinsVC: UIViewController {
         }
     }
     
+    @IBOutlet weak var indicatorBackground: RoundView!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = true
-
+        navigationItem.hidesBackButton = true
+        indicatorBackground.isHidden = true
+        
+        view.setGradientColor(colorOne: UIColor.Application.darkBlue,
+                              colorTwo: UIColor.Application.lightBlue)
+        
+        
         list = fileReader.reader()
         filteredData = list
         
@@ -45,43 +50,57 @@ class ProteinsVC: UIViewController {
         definesPresentationContext = true
         
         if list[0] == "Error" {
-            print("Error")
+//            let alert = UIAlertController.ale
             navigationController?.popViewController(animated: true)
             return
         }
     }
-    
+        
 }
 
 extension ProteinsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let activityView = UIActivityIndicatorView(style: .white)
-        activityView.center = self.view.center
-        activityView.startAnimating()
-        view.addSubview(activityView)
-        
+       
+        indicatorBackground.isHidden = false
+        indicator.startAnimating()
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+
+
         downloader.downloadConnections(for: filteredData[indexPath.row]) { [unowned self] (result) in
             switch result {
             case .success(let atoms, let connections):
                 DispatchQueue.main.async {
                     let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ProteinSceneVC") as! ProteinSceneVC
-
-                    tableView.deselectRow(at: indexPath, animated: true)
-                    activityView.stopAnimating()
-
+                    
                     nextVC.ligand = self.filteredData[indexPath.row]
                     nextVC.connections = connections
                     nextVC.atoms = atoms
+
+                    self.indicatorBackground.isHidden = true
+                    self.indicator.stopAnimating()
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+
+                    let backItem = UIBarButtonItem()
+                    backItem.title = " "
+                    self.navigationItem.backBarButtonItem = backItem
+
                     self.navigationController?.pushViewController(nextVC, animated: true)
                 }
-            case .error:
-                // TODO: Error
-                tableView.deselectRow(at: indexPath, animated: true)
-                print("Error")
+            case .error(let errorString):
+                DispatchQueue.main.async {
+                    tableView.deselectRow(at: indexPath, animated: true)
+                    let alert = UIAlertController().createAlert(title: "Error", message: errorString, action: "Ok")
+                    self.present(alert, animated: true)
+
+                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
+
+                    self.indicatorBackground.isHidden = true
+                    self.indicator.stopAnimating()
+                }
+                
+                return
             }
         }
-        
-        
     }
     
 }
@@ -95,6 +114,7 @@ extension ProteinsVC: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ligandCell", for: indexPath) as! LigandCell
         let ligand = filteredData[indexPath.row]
         cell.ligandName.text = ligand
+        cell.backgroundColor = .clear
         return cell
     }
     
@@ -124,8 +144,3 @@ extension ProteinsVC: UISearchResultsUpdating {
     }
 }
 
-extension String {
-    func containsIgnoringCase(find: String) -> Bool{
-        return self.range(of: find, options: .caseInsensitive) != nil
-    }
-}
