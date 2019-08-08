@@ -30,7 +30,7 @@ extension UIColor {
     }
     
     struct Application {
-        static let darkBlue = UIColor(red: 15/255, green: 32/255, blue: 39/255, alpha: 1.0)
+        static let darkBlue = UIColor(red: 1/255, green: 68/255, blue: 104/255, alpha: 1.0)
         static let lightBlue = UIColor(red: 44/255, green: 83/255, blue: 100/255, alpha: 1.0)
     }
 }

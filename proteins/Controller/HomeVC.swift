@@ -11,7 +11,7 @@ import UIKit
 class HomeVC: UIViewController {
 
     let touchID = BiometricIDAuth()
-        
+    
     @IBOutlet weak var loginButton: RoundButton!
     
     @IBAction func loginTapped(_ sender: RoundButton) {
@@ -42,11 +42,14 @@ class HomeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        view.setGradientColor(colorOne: UIColor.Application.darkBlue,
-                              colorTwo: UIColor.Application.lightBlue)
+
+        view.setGradientColor(colorOne: UIColor.black,
+                              colorTwo: UIColor.Application.darkBlue)
         
         loginButton.isHidden = !touchID.canEvaluate()
+        loginButton.backgroundColor = .clear
+        loginButton.borderColor = .black
+        loginButton.borderWidth = 2
         
         switch touchID.authorizationType() {
         case .faceID:

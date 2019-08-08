@@ -56,7 +56,7 @@
                                 <color key="textColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="atom" translatesAutoresizingMaskIntoConstraints="NO" id="yOP-2h-XfD">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="atompng" translatesAutoresizingMaskIntoConstraints="NO" id="yOP-2h-XfD">
                                 <rect key="frame" x="80" y="118" width="254" height="254"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="yOP-2h-XfD" secondAttribute="height" multiplier="1:1" id="txw-3a-gu4"/>
@@ -159,23 +159,73 @@
                             <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preferredRenderingAPI="2" translatesAutoresizingMaskIntoConstraints="NO" id="nhD-dc-XoP">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                             </sceneKitView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="H" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yrz-nu-5px">
+                                <rect key="frame" x="16" y="711.66666666666663" width="382" height="24.333333333333371"/>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="21"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Atomic Number: 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jml-0o-SCA">
+                                <rect key="frame" x="16" y="775" width="382" height="18"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Atomic Mass: 1.432" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rae-rG-Wd9">
+                                <rect key="frame" x="16" y="801" width="382" height="18"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hydrogen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N85-Of-op0">
+                                <rect key="frame" x="16" y="746" width="382" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Summary" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SVf-Bf-NMh">
+                                <rect key="frame" x="16" y="827" width="382" height="19"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="16"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Rae-rG-Wd9" firstAttribute="top" secondItem="jml-0o-SCA" secondAttribute="bottom" constant="8" id="80A-MJ-Mtv"/>
+                            <constraint firstItem="SVf-Bf-NMh" firstAttribute="leading" secondItem="ZaK-HV-BES" secondAttribute="leading" constant="16" id="AOb-oG-AVg"/>
+                            <constraint firstItem="N85-Of-op0" firstAttribute="leading" secondItem="ZaK-HV-BES" secondAttribute="leading" constant="16" id="BMz-U2-GV6"/>
+                            <constraint firstItem="ZaK-HV-BES" firstAttribute="trailing" secondItem="SVf-Bf-NMh" secondAttribute="trailing" constant="16" id="Cte-D4-FBG"/>
+                            <constraint firstItem="N85-Of-op0" firstAttribute="top" secondItem="yrz-nu-5px" secondAttribute="bottom" constant="10" id="Hy5-pO-zZV"/>
+                            <constraint firstItem="jml-0o-SCA" firstAttribute="leading" secondItem="ZaK-HV-BES" secondAttribute="leading" constant="16" id="IyJ-34-S6b"/>
                             <constraint firstItem="nhD-dc-XoP" firstAttribute="top" secondItem="ZaK-HV-BES" secondAttribute="top" id="L9L-7W-vdp"/>
+                            <constraint firstItem="jml-0o-SCA" firstAttribute="top" secondItem="N85-Of-op0" secondAttribute="bottom" constant="8" id="LRU-t9-4P0"/>
+                            <constraint firstItem="ZaK-HV-BES" firstAttribute="trailing" secondItem="jml-0o-SCA" secondAttribute="trailing" constant="16" id="MFl-do-hf2"/>
+                            <constraint firstItem="SVf-Bf-NMh" firstAttribute="top" secondItem="Rae-rG-Wd9" secondAttribute="bottom" constant="8" id="NSY-4T-l5P"/>
                             <constraint firstItem="ZaK-HV-BES" firstAttribute="trailing" secondItem="nhD-dc-XoP" secondAttribute="trailing" id="Pjy-Na-44d"/>
+                            <constraint firstItem="ZaK-HV-BES" firstAttribute="trailing" secondItem="yrz-nu-5px" secondAttribute="trailing" constant="16" id="PuM-6V-AB2"/>
+                            <constraint firstItem="yrz-nu-5px" firstAttribute="leading" secondItem="ZaK-HV-BES" secondAttribute="leading" constant="16" id="Td3-XX-6F6"/>
+                            <constraint firstItem="ZaK-HV-BES" firstAttribute="trailing" secondItem="Rae-rG-Wd9" secondAttribute="trailing" constant="16" id="TvP-Ud-nyZ"/>
                             <constraint firstItem="ZaK-HV-BES" firstAttribute="bottom" secondItem="nhD-dc-XoP" secondAttribute="bottom" id="YAN-np-6Pa"/>
+                            <constraint firstItem="ZaK-HV-BES" firstAttribute="trailing" secondItem="N85-Of-op0" secondAttribute="trailing" constant="16" id="c3w-Q5-hlj"/>
+                            <constraint firstItem="Rae-rG-Wd9" firstAttribute="leading" secondItem="ZaK-HV-BES" secondAttribute="leading" constant="16" id="dJd-im-9Wm"/>
                             <constraint firstItem="nhD-dc-XoP" firstAttribute="leading" secondItem="ZaK-HV-BES" secondAttribute="leading" id="i5T-gz-BOa"/>
+                            <constraint firstItem="ZaK-HV-BES" firstAttribute="bottom" secondItem="SVf-Bf-NMh" secondAttribute="bottom" constant="16" id="jb3-Gp-JPP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZaK-HV-BES"/>
                     </view>
                     <connections>
+                        <outlet property="atomMassLabel" destination="Rae-rG-Wd9" id="Dhz-Fm-CAb"/>
+                        <outlet property="atomNumberLabel" destination="jml-0o-SCA" id="Hgx-Wk-7Nr"/>
+                        <outlet property="nameLabel" destination="N85-Of-op0" id="Ej6-6d-M8I"/>
                         <outlet property="sceneKit" destination="nhD-dc-XoP" id="zyR-Hf-kef"/>
+                        <outlet property="summaryLabel" destination="SVf-Bf-NMh" id="LZW-Xm-ksM"/>
+                        <outlet property="symbolLabel" destination="yrz-nu-5px" id="erJ-cn-u7D"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nsc-Ox-K0H" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2535" y="19"/>
+            <point key="canvasLocation" x="2534.7826086956525" y="18.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8OL-go-PIU">
@@ -197,6 +247,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="atom" width="512" height="512"/>
+        <image name="atompng" width="640" height="736"/>
     </resources>
 </document>

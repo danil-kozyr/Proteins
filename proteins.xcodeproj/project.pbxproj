@@ -29,6 +29,9 @@
 		55B6CEF322F9A2FA009627C9 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B6CEF222F9A2FA009627C9 /* UIView.swift */; };
 		55B6CEF522F9C0FA009627C9 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B6CEF422F9C0FA009627C9 /* Alert.swift */; };
 		55B6CEF922F9E6DE009627C9 /* PeriodicTableJSON.json in Resources */ = {isa = PBXBuildFile; fileRef = 55B6CEF822F9E6DD009627C9 /* PeriodicTableJSON.json */; };
+		55D8C8A722FC53F0008B2E3E /* ChemicalElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D8C8A622FC53F0008B2E3E /* ChemicalElement.swift */; };
+		55D8C8A922FC5500008B2E3E /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D8C8A822FC5500008B2E3E /* JSONParser.swift */; };
+		55D8C8AB22FC63B2008B2E3E /* SCNNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D8C8AA22FC63B1008B2E3E /* SCNNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +58,9 @@
 		55B6CEF222F9A2FA009627C9 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
 		55B6CEF422F9C0FA009627C9 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		55B6CEF822F9E6DD009627C9 /* PeriodicTableJSON.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = PeriodicTableJSON.json; sourceTree = "<group>"; };
+		55D8C8A622FC53F0008B2E3E /* ChemicalElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChemicalElement.swift; sourceTree = "<group>"; };
+		55D8C8A822FC5500008B2E3E /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
+		55D8C8AA22FC63B1008B2E3E /* SCNNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNNode.swift; sourceTree = "<group>"; };
 		6DCC9E6FBF9E23C8B72C8025 /* Pods-proteins.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-proteins.release.xcconfig"; path = "Target Support Files/Pods-proteins/Pods-proteins.release.xcconfig"; sourceTree = "<group>"; };
 		D50129C70E418E8B36EA6BC5 /* Pods_proteins.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_proteins.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBDA17EC9732FA1BB424EF5B /* Pods-proteins.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-proteins.debug.xcconfig"; path = "Target Support Files/Pods-proteins/Pods-proteins.debug.xcconfig"; sourceTree = "<group>"; };
@@ -106,6 +112,16 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		551D26FC22FC7C30009BA8BA /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				55A118A622F46D3B00ACEF4F /* Assets.xcassets */,
+				5513776422F5A8E700F976AF /* ligands.txt */,
+				55B6CEF822F9E6DD009627C9 /* PeriodicTableJSON.json */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
 		55A1189322F46D3900ACEF4F = {
 			isa = PBXGroup;
 			children = (
@@ -130,12 +146,10 @@
 				55A118B322F46D5600ACEF4F /* Controller */,
 				55B6CEEA22F99DA3009627C9 /* Extensions */,
 				55A118B122F46D3F00ACEF4F /* Model */,
+				551D26FC22FC7C30009BA8BA /* SupportingFiles */,
 				55A118B222F46D5200ACEF4F /* View */,
 				55A1189F22F46D3900ACEF4F /* AppDelegate.swift */,
-				55A118A622F46D3B00ACEF4F /* Assets.xcassets */,
 				55A118AB22F46D3B00ACEF4F /* Info.plist */,
-				55B6CEF822F9E6DD009627C9 /* PeriodicTableJSON.json */,
-				5513776422F5A8E700F976AF /* ligands.txt */,
 			);
 			path = proteins;
 			sourceTree = "<group>";
@@ -144,8 +158,10 @@
 			isa = PBXGroup;
 			children = (
 				554E0D3522F85DEB008BA0F6 /* Atom.swift */,
+				55D8C8A622FC53F0008B2E3E /* ChemicalElement.swift */,
 				554E0D3722F87126008BA0F6 /* Connections.swift */,
 				5513776622F5B37400F976AF /* FileReader.swift */,
+				55D8C8A822FC5500008B2E3E /* JSONParser.swift */,
 				554E0D3122F84D7E008BA0F6 /* RCSBDownloader.swift */,
 				55456A0D22F47E0900F585B0 /* TouchIDAuthentication.swift */,
 			);
@@ -177,6 +193,7 @@
 			children = (
 				55B6CEF422F9C0FA009627C9 /* Alert.swift */,
 				55B6CEF022F99F87009627C9 /* Colors.swift */,
+				55D8C8AA22FC63B1008B2E3E /* SCNNode.swift */,
 				55B6CEED22F99DF7009627C9 /* String.swift */,
 				55B6CEF222F9A2FA009627C9 /* UIView.swift */,
 			);
@@ -310,15 +327,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55D8C8A722FC53F0008B2E3E /* ChemicalElement.swift in Sources */,
 				5513776722F5B37400F976AF /* FileReader.swift in Sources */,
 				55B6CEEE22F99DF7009627C9 /* String.swift in Sources */,
 				55A118A222F46D3900ACEF4F /* HomeVC.swift in Sources */,
+				55D8C8AB22FC63B2008B2E3E /* SCNNode.swift in Sources */,
 				55B6CEF122F99F87009627C9 /* Colors.swift in Sources */,
 				554E0D3622F85DEB008BA0F6 /* Atom.swift in Sources */,
 				55A118B622F46ED900ACEF4F /* RoundedButton.swift in Sources */,
 				554E0D3822F87126008BA0F6 /* Connections.swift in Sources */,
 				554E0D3222F84D7E008BA0F6 /* RCSBDownloader.swift in Sources */,
 				5513776322F59FED00F976AF /* ProteinsVC.swift in Sources */,
+				55D8C8A922FC5500008B2E3E /* JSONParser.swift in Sources */,
 				55B6CEF322F9A2FA009627C9 /* UIView.swift in Sources */,
 				5513776E22F5B93E00F976AF /* LigandCell.swift in Sources */,
 				55456A0E22F47E0900F585B0 /* TouchIDAuthentication.swift in Sources */,

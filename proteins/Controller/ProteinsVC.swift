@@ -8,8 +8,6 @@
 
 import UIKit
 
-// TODO: When loading the ligand you should display the spinning wheel of the activity monitor
-
 class ProteinsVC: UIViewController {
 
     private var list: [String] = []
@@ -27,44 +25,56 @@ class ProteinsVC: UIViewController {
         }
     }
     
-    @IBOutlet weak var indicatorBackground: RoundView!
+    @IBOutlet weak var indicatorBackground: RoundView! {
+        didSet {
+            indicatorBackground.isHidden = true
+        }
+    }
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.hidesBackButton = true
-        indicatorBackground.isHidden = true
-        
-        view.setGradientColor(colorOne: UIColor.Application.darkBlue,
-                              colorTwo: UIColor.Application.lightBlue)
-        
+
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        view.setGradientColor(colorOne: UIColor.black,
+                              colorTwo: UIColor.Application.darkBlue)
         
         list = fileReader.reader()
         filteredData = list
         
+        setupSearchController()
+    }
+    
+    private func setupSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
         definesPresentationContext = true
-        
-        if list[0] == "Error" {
-//            let alert = UIAlertController.ale
-            navigationController?.popViewController(animated: true)
-            return
-        }
     }
-        
+    
+    private func startLoading() {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+        indicatorBackground.isHidden = false
+        indicator.startAnimating()
+        view.isUserInteractionEnabled = false
+    }
+    
+    private func stopLoading() {
+        view.isUserInteractionEnabled = true
+        indicator.stopAnimating()
+        indicatorBackground.isHidden = true
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
+    }
 }
 
 extension ProteinsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       
-        indicatorBackground.isHidden = false
-        indicator.startAnimating()
-        UIApplication.shared.isNetworkActivityIndicatorVisible = true
-
+        startLoading()
 
         downloader.downloadConnections(for: filteredData[indexPath.row]) { [unowned self] (result) in
             switch result {
@@ -75,14 +85,12 @@ extension ProteinsVC: UITableViewDelegate {
                     nextVC.ligand = self.filteredData[indexPath.row]
                     nextVC.connections = connections
                     nextVC.atoms = atoms
-
-                    self.indicatorBackground.isHidden = true
-                    self.indicator.stopAnimating()
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-
+                    
                     let backItem = UIBarButtonItem()
                     backItem.title = " "
                     self.navigationItem.backBarButtonItem = backItem
+                    
+                    self.stopLoading()
 
                     self.navigationController?.pushViewController(nextVC, animated: true)
                 }
@@ -91,11 +99,7 @@ extension ProteinsVC: UITableViewDelegate {
                     tableView.deselectRow(at: indexPath, animated: true)
                     let alert = UIAlertController().createAlert(title: "Error", message: errorString, action: "Ok")
                     self.present(alert, animated: true)
-
-                    UIApplication.shared.isNetworkActivityIndicatorVisible = false
-
-                    self.indicatorBackground.isHidden = true
-                    self.indicator.stopAnimating()
+                    self.stopLoading()
                 }
                 
                 return

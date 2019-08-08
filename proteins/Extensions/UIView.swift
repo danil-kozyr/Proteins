@@ -16,7 +16,6 @@ extension UIView {
         
         gradient.frame = bounds
         gradient.colors = [colorOne.cgColor, colorTwo.cgColor]
-//        gradient.locations
         gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
         gradient.endPoint = CGPoint(x: 0.0, y: 1.0)
         
@@ -24,4 +23,3 @@ extension UIView {
     }
     
 }
-

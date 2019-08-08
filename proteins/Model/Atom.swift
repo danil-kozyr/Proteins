@@ -17,7 +17,6 @@ class Atom {
     let y: Float
     let z: Float
     let type: String
-//    let color: UIColor
     
     init(name: String, id: Int, x: Float, y: Float, z: Float, type: String) {
         self.name = name
@@ -26,9 +25,8 @@ class Atom {
         self.y = y
         self.z = z
         self.type = type
-//        self.color = self.getColor(type: self.type)
     }
-
+    
     func getColor(type: String) -> UIColor {
         switch type.lowercased() {
         case "c":                       return UIColor.AtomColor.lightGrey

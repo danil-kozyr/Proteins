@@ -18,7 +18,8 @@ class FileReader {
         if let filePath = Bundle.main.path(forResource: fileName, ofType: fileType) {
             do {
                 let contents = try String(contentsOfFile: filePath)
-                let strArray = contents.components(separatedBy: "\n")
+                var strArray = contents.components(separatedBy: "\n")
+                strArray.removeLast()
                 return strArray
             } catch {
                 return ["Error"]

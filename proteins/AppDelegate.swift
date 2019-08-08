@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // MARK: Navigation Bar Design Settings
 
-        UINavigationBar.appearance().barTintColor = UIColor.Application.darkBlue
+        UINavigationBar.appearance().barTintColor = UIColor.black
         UINavigationBar.appearance().isTranslucent = false
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
