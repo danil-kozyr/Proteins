@@ -10,8 +10,14 @@ import Foundation
 import UIKit
 
 extension UIView {
+
     
-    func setGradientColor(colorOne: UIColor, colorTwo: UIColor) {
+    func setGradientColor(colorOne: UIColor, colorTwo: UIColor, update: Bool) {
+        if update {
+            if let sublayers = layer.sublayers {
+                sublayers.compactMap( { $0 as? CAGradientLayer } ).first?.removeFromSuperlayer()
+            }
+                    }
         let gradient = CAGradientLayer()
         
         gradient.frame = bounds

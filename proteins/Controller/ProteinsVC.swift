@@ -41,7 +41,7 @@ class ProteinsVC: UIViewController {
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         view.setGradientColor(colorOne: UIColor.black,
-                              colorTwo: UIColor.Application.darkBlue)
+                              colorTwo: UIColor.Application.darkBlue, update: false)
         
         list = fileReader.reader()
         filteredData = list

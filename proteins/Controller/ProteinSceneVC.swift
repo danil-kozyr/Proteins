@@ -33,9 +33,14 @@ class ProteinSceneVC: UIViewController, UIApplicationDelegate {
         appDelegate.blockRotation = false
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share))
         sceneKit.backgroundColor = .clear
-        view.setGradientColor(colorOne: UIColor.black,
-                              colorTwo: UIColor.Application.darkBlue)
         createSceneKit(with: atoms!, with: connections!)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        view.setGradientColor(colorOne: UIColor.black,
+                              colorTwo: UIColor.Application.darkBlue,
+                              update: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -49,10 +54,8 @@ class ProteinSceneVC: UIViewController, UIApplicationDelegate {
         appDelegate.blockRotation = true
     }
     
-    @objc func share() {
-        sceneKit.backgroundColor = .black
+    @objc private func share() {
         let image = sceneKit.snapshot()
-        sceneKit.backgroundColor = .clear
         let text = "Bro, look at this piece of art. It's named Ligand + \(ligand)"
         let ac = UIActivityViewController(activityItems: [image, text], applicationActivities: nil)
         present(ac, animated: true)
@@ -103,7 +106,7 @@ class ProteinSceneVC: UIViewController, UIApplicationDelegate {
         
     }
     
-    @objc func handleTap(sender:UITapGestureRecognizer) {
+    @objc private func handleTap(sender:UITapGestureRecognizer) {
         let location = sender.location(in: sceneKit)
         let hits = sceneKit.hitTest(location, options: nil)
         if !hits.isEmpty {

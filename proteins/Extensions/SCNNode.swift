@@ -16,9 +16,7 @@ extension SCNNode {
         if length == 0 {
             return SCNVector3(0.0, 0.0, 0.0)
         }
-        
         return SCNVector3( iv.x / length, iv.y / length, iv.z / length)
-        
     }
     
     func buildLineInTwoPointsWithRotation(from startPoint: SCNVector3,
