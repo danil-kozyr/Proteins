@@ -12,14 +12,11 @@ import SceneKit
 class ProteinSceneVC: UIViewController, UIApplicationDelegate {
 
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
-    
     var ligand = String()
     var atoms: [Atom]?
     var connections: [Connections]?
 
-    
     @IBOutlet weak var sceneKit: SCNView!
-    
     @IBOutlet weak var symbolLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var atomNumberLabel: UILabel!
@@ -62,8 +59,8 @@ class ProteinSceneVC: UIViewController, UIApplicationDelegate {
     }
     
     private func createSceneKit(with atoms: [Atom], with connections: [Connections]) {
-        let scene = SCNScene()
         let node = SCNNode()
+        let scene = SCNScene()
         
         // MARK: Drawing Atoms
         

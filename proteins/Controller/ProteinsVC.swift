@@ -14,6 +14,7 @@ class ProteinsVC: UIViewController {
     private var filteredData: [String] = []
     private let fileReader = FileReader()
     private var downloader = RCSBDownloader()
+    private let searchController = UISearchController(searchResultsController: nil)
 
     @IBOutlet weak var tableView: UITableView! {
         didSet {
@@ -50,11 +51,12 @@ class ProteinsVC: UIViewController {
     }
     
     private func setupSearchController() {
-        let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
         definesPresentationContext = true
+        searchController.searchBar.inputAccessoryView = addToolbar()
+        searchController.searchBar.keyboardAppearance = .dark
     }
     
     private func startLoading() {
@@ -70,6 +72,23 @@ class ProteinsVC: UIViewController {
         indicatorBackground.isHidden = true
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
+    
+    private func addToolbar() -> UIToolbar {
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+        toolbar.barTintColor = UIColor(red: 25/255, green: 40/255, blue: 55/255, alpha: 0.5)
+        toolbar.isTranslucent = true
+        toolbar.backgroundColor = .darkGray
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneClicked))
+        toolbar.setItems([flexibleSpace, doneButton], animated: false)
+        return toolbar
+    }
+    
+    @objc private func doneClicked() {
+        searchController.isActive = false
+    }
+    
 }
 
 extension ProteinsVC: UITableViewDelegate {
