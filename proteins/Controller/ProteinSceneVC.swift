@@ -13,8 +13,8 @@ class ProteinSceneVC: UIViewController, UIApplicationDelegate {
 
     private var appDelegate = UIApplication.shared.delegate as! AppDelegate
     var ligand = String()
-    var atoms: [Atom]?
-    var connections: [Connections]?
+    var atoms = [Atom]()
+    var connections = [Connections]()
 
     @IBOutlet weak var sceneKit: SCNView!
     @IBOutlet weak var symbolLabel: UILabel!
@@ -30,7 +30,7 @@ class ProteinSceneVC: UIViewController, UIApplicationDelegate {
         appDelegate.blockRotation = false
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share))
         sceneKit.backgroundColor = .clear
-        createSceneKit(with: atoms!, with: connections!)
+        createSceneKit(with: atoms, with: connections)
     }
     
     override func viewWillLayoutSubviews() {
@@ -107,14 +107,13 @@ class ProteinSceneVC: UIViewController, UIApplicationDelegate {
         let location = sender.location(in: sceneKit)
         let hits = sceneKit.hitTest(location, options: nil)
         if !hits.isEmpty {
-            let parser = JSONParser()
             let tapNode = hits.first?.node
             let position = tapNode!.position
             
-            guard let atom = atoms?.filter({ $0.x == position.x && $0.y == position.y }).first else {
+            guard let atom = atoms.filter({ $0.x == position.x && $0.y == position.y }).first else {
                 return
             }
-            let chemicalElement = parser.parse(elementType: atom.type)
+            let chemicalElement = JSONParser().parse(elementType: atom.type)
             
             isLabelHidden(false, element: chemicalElement)
         } else {

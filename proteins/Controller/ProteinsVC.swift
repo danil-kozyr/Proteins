@@ -12,8 +12,6 @@ class ProteinsVC: UIViewController {
 
     private var list: [String] = []
     private var filteredData: [String] = []
-    private let fileReader = FileReader()
-    private var downloader = RCSBDownloader()
     private let searchController = UISearchController(searchResultsController: nil)
 
     @IBOutlet weak var tableView: UITableView! {
@@ -26,11 +24,7 @@ class ProteinsVC: UIViewController {
         }
     }
     
-    @IBOutlet weak var indicatorBackground: RoundView! {
-        didSet {
-            indicatorBackground.isHidden = true
-        }
-    }
+    @IBOutlet weak var indicatorBackground: RoundView!
     @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
@@ -38,13 +32,14 @@ class ProteinsVC: UIViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.hidesBackButton = true
+        indicatorBackground.isHidden = true
 
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).attributedPlaceholder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         view.setGradientColor(colorOne: UIColor.black,
                               colorTwo: UIColor.Application.darkBlue, update: false)
         
-        list = fileReader.reader()
+        list = FileReader().reader()
         filteredData = list
         
         setupSearchController()
@@ -95,30 +90,37 @@ extension ProteinsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         startLoading()
 
-        downloader.downloadConnections(for: filteredData[indexPath.row]) { [unowned self] (result) in
+        RCSBDownloader().downloadConnections(for: filteredData[indexPath.row]) { [weak self] (result) in
             switch result {
             case .success(let atoms, let connections):
                 DispatchQueue.main.async {
-                    let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ProteinSceneVC") as! ProteinSceneVC
+                    let nextVC = self?.storyboard?.instantiateViewController(withIdentifier: "ProteinSceneVC") as! ProteinSceneVC
                     
-                    nextVC.ligand = self.filteredData[indexPath.row]
+                    guard let filtered = self?.filteredData[indexPath.row] else {
+                        let alert = UIAlertController().createAlert(title: "Error", message: "Search is incorrect", action: "Ok")
+                        self?.present(alert, animated: true)
+                        self?.stopLoading()
+                        return
+                    }
+                    
+                    nextVC.ligand = filtered
                     nextVC.connections = connections
                     nextVC.atoms = atoms
                     
                     let backItem = UIBarButtonItem()
                     backItem.title = " "
-                    self.navigationItem.backBarButtonItem = backItem
+                    self?.navigationItem.backBarButtonItem = backItem
                     
-                    self.stopLoading()
+                    self?.stopLoading()
 
-                    self.navigationController?.pushViewController(nextVC, animated: true)
+                    self?.navigationController?.pushViewController(nextVC, animated: true)
                 }
             case .error(let errorString):
                 DispatchQueue.main.async {
                     tableView.deselectRow(at: indexPath, animated: true)
                     let alert = UIAlertController().createAlert(title: "Error", message: errorString, action: "Ok")
-                    self.present(alert, animated: true)
-                    self.stopLoading()
+                    self?.present(alert, animated: true)
+                    self?.stopLoading()
                 }
                 
                 return
