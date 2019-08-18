@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HomeVC.swift
 //  proteins
 //
 //  Created by Daniil KOZYR on 8/2/19.
@@ -10,56 +10,77 @@ import UIKit
 
 class HomeVC: UIViewController {
 
-    private let touchID = BiometricIDAuth()
+    // MARK: - Properties
+    
+    private let biometricAuth = BiometricIDAuth()
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var loginButton: RoundButton!
     
+    // MARK: - Lifecycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.navigationBar.isHidden = false
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        view.setGradientColor(colorOne: .black, colorTwo: .Application.darkBlue, update: false)
+    }
+    
+    // MARK: - IBActions
+    
     @IBAction private func loginTapped(_ sender: RoundButton) {
-        touchID.authenticateUser { [unowned self] (result) in
-            switch result {
-            case .success:
-                DispatchQueue.main.sync {
-                    let nextVC = self.storyboard?.instantiateViewController(withIdentifier: "ProteinsVC") as! ProteinsVC
-                    self.navigationController?.pushViewController(nextVC, animated: true)
+        authenticateUser()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func authenticateUser() {
+        biometricAuth.authenticateUser { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    self?.navigateToProteinsViewController()
+                case .error:
+                    self?.showAuthenticationFailedAlert()
                 }
-            case .error:
-                let alert = UIAlertController().createAlert(title: "Authentication Failed", message: "Please authorize using\nFaceID or TouchID", action: "Ok")
-                self.present(alert, animated: true)
-                return
             }
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        self.navigationController?.navigationBar.isHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        self.navigationController?.navigationBar.isHidden = false
-    }
-
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.setGradientColor(colorOne: UIColor.black,
-                              colorTwo: UIColor.Application.darkBlue, update: false)
-        
-        loginButton.isHidden = !touchID.canEvaluate()
-        loginButton.backgroundColor = .clear
-        loginButton.borderColor = .black
-        loginButton.borderWidth = 2
-        
-        switch touchID.authorizationType() {
-        case .faceID:
-            loginButton.setTitle("Login via faceID", for: .normal)
-        case .touchID:
-            loginButton.setTitle("Login via touchID", for: .normal)
-        case .none:
-            loginButton.isHidden = true
+    private func navigateToProteinsViewController() {
+        guard let storyboard = storyboard,
+              let proteinsVC = storyboard.instantiateViewController(withIdentifier: "ProteinsVC") as? ProteinsVC else {
+            showGenericErrorAlert()
+            return
         }
+        navigationController?.pushViewController(proteinsVC, animated: true)
     }
-        
+    
+    private func showAuthenticationFailedAlert() {
+        let alert = UIAlertController().createAlert(
+            title: "Authentication Failed",
+            message: "Please authorize using\nFaceID or TouchID",
+            action: "OK"
+        )
+        present(alert, animated: true)
+    }
+    
+    private func showGenericErrorAlert() {
+        let alert = UIAlertController().createAlert(
+            title: "Error",
+            message: "Unable to navigate to proteins view",
+            action: "OK"
+        )
+        present(alert, animated: true)
+    }
 }
 

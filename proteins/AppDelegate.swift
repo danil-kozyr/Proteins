@@ -12,65 +12,62 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    
     var blockRotation = true
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
-
-        // MARK: Navigation Bar Design Settings
-
-        UINavigationBar.appearance().barTintColor = UIColor.black
-        UINavigationBar.appearance().isTranslucent = false
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
-        UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
-        UIBarButtonItem.appearance().tintColor = UIColor.white
-        UINavigationBar.appearance().tintColor = UIColor.white
-        
+        configureNavigationBarAppearance()
         return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        // Pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        // Release shared resources, save user data, invalidate timers
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    
-        // MARK: Call root view controller on hide application
-        
-        let mainStoryboardIpad : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let initialViewControlleripad : UIViewController = mainStoryboardIpad.instantiateViewController(withIdentifier: "HomeVC") as! HomeVC
-        let navigationController = UINavigationController(rootViewController: initialViewControlleripad)
-        navigationController.navigationBar.isTranslucent = false
-        self.window?.rootViewController = navigationController
-        self.window?.makeKeyAndVisible()
+        // Reset to home view controller when app enters foreground
+        resetToHomeViewController()
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        // Restart any tasks that were paused while the application was inactive
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // Save data if appropriate
     }
     
-    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        
-        // MARK: Manage Rotations for View Controollers
-        
-        if blockRotation {
-            return .portrait
-        }
-        return .all
+    // MARK: - Private Methods
+    
+    private func configureNavigationBarAppearance() {
+        UINavigationBar.appearance().barTintColor = UIColor.black
+        UINavigationBar.appearance().isTranslucent = false
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        UINavigationBar.appearance().largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        UIBarButtonItem.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().tintColor = UIColor.white
     }
-
-
+    
+    private func resetToHomeViewController() {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        guard let homeViewController = mainStoryboard.instantiateViewController(withIdentifier: "HomeVC") as? HomeVC else {
+            return
+        }
+        
+        let navigationController = UINavigationController(rootViewController: homeViewController)
+        navigationController.navigationBar.isTranslucent = false
+        
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
+    }
+    
+    // MARK: - Orientation Control
+    
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        return blockRotation ? .portrait : .all
+    }
 }
 

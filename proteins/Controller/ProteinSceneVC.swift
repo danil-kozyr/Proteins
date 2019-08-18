@@ -9,13 +9,20 @@
 import UIKit
 import SceneKit
 
-class ProteinSceneVC: UIViewController, UIApplicationDelegate {
+class ProteinSceneVC: UIViewController {
 
-    private var appDelegate = UIApplication.shared.delegate as! AppDelegate
+    // MARK: - Properties
+    
+    private var appDelegate: AppDelegate? {
+        return UIApplication.shared.delegate as? AppDelegate
+    }
+    
     var ligand = String()
     var atoms = [Atom]()
     var connections = [Connections]()
 
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var sceneKit: SCNView!
     @IBOutlet weak var symbolLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
@@ -23,123 +30,180 @@ class ProteinSceneVC: UIViewController, UIApplicationDelegate {
     @IBOutlet weak var atomMassLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        isLabelHidden(true, element: nil)
-        self.title = "Ligand " + ligand
-        appDelegate.blockRotation = false
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(share))
-        sceneKit.backgroundColor = .clear
-        createSceneKit(with: atoms, with: connections)
+        setupUI()
+        setupSceneKit()
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        view.setGradientColor(colorOne: UIColor.black,
-                              colorTwo: UIColor.Application.darkBlue,
-                              update: true)
+        view.setGradientColor(colorOne: .black, colorTwo: .Application.darkBlue, update: true)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        resetOrientationToPortrait()
+        appDelegate?.blockRotation = true
+    }
+    
+    // MARK: - Private Methods
+    
+    private func setupUI() {
+        hideElementLabels(true, element: nil)
+        title = "Ligand \(ligand)"
+        appDelegate?.blockRotation = false
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(shareButtonTapped)
+        )
+        
+        sceneKit.backgroundColor = .clear
+    }
+    
+    private func setupSceneKit() {
+        create3DScene(with: atoms, connections: connections)
+    }
+    
+    private func resetOrientationToPortrait() {
         if UIDevice.current.orientation.isLandscape {
-            let value = UIInterfaceOrientation.portrait.rawValue
-            UIDevice.current.setValue(value, forKey: "orientation")
+            let portraitOrientation = UIInterfaceOrientation.portrait.rawValue
+            UIDevice.current.setValue(portraitOrientation, forKey: "orientation")
         }
-
-        appDelegate.blockRotation = true
     }
     
-    @objc private func share() {
+    @objc private func shareButtonTapped() {
         let image = sceneKit.snapshot()
-        let text = "Bro, look at this piece of art. It's named Ligand + \(ligand)"
-        let ac = UIActivityViewController(activityItems: [image, text], applicationActivities: nil)
-        present(ac, animated: true)
+        let text = "Check out this protein visualization: Ligand \(ligand)"
+        let activityViewController = UIActivityViewController(activityItems: [image, text], applicationActivities: nil)
+        present(activityViewController, animated: true)
     }
     
-    private func createSceneKit(with atoms: [Atom], with connections: [Connections]) {
-        let node = SCNNode()
+    private func create3DScene(with atoms: [Atom], connections: [Connections]) {
         let scene = SCNScene()
         
-        // MARK: Drawing Atoms
+        // Add atoms to scene
+        addAtomsToScene(scene, atoms: atoms)
         
+        // Add connections to scene
+        addConnectionsToScene(scene, atoms: atoms, connections: connections)
+        
+        // Configure scene settings
+        configureSceneSettings(scene)
+        
+        // Add tap gesture
+        addTapGesture()
+    }
+    
+    private func addAtomsToScene(_ scene: SCNScene, atoms: [Atom]) {
         for atom in atoms {
             let sphere = SCNNode(geometry: SCNSphere(radius: 0.5))
             sphere.geometry?.firstMaterial?.diffuse.contents = atom.getColor(type: atom.type)
             sphere.position = SCNVector3(atom.x, atom.y, atom.z)
             scene.rootNode.addChildNode(sphere)
         }
-        
-        // MARK: Drawing Connections
-
+    }
+    
+    private func addConnectionsToScene(_ scene: SCNScene, atoms: [Atom], connections: [Connections]) {
         for connection in connections {
-            guard let startAtom = atoms.filter( { $0.id == connection.mainId } ).first else {
-                return
+            guard let startAtom = atoms.first(where: { $0.id == connection.mainId }) else {
+                continue
             }
             
             let startPosition = SCNVector3(startAtom.x, startAtom.y, startAtom.z)
-            for end in connection.ids {
-                guard let endAtom = atoms.filter( { $0.id == end } ).first else {
-                    return
+            
+            for endId in connection.ids {
+                guard let endAtom = atoms.first(where: { $0.id == endId }) else {
+                    continue
                 }
+                
                 let endPosition = SCNVector3(endAtom.x, endAtom.y, endAtom.z)
-                let twoPointsNode = SCNNode()
-                scene.rootNode.addChildNode(twoPointsNode.buildLineInTwoPointsWithRotation(from: startPosition, to: endPosition, radius: 0.2, color: .cyan))
+                let connectionNode = SCNNode()
+                let lineNode = connectionNode.buildLineInTwoPointsWithRotation(
+                    from: startPosition,
+                    to: endPosition,
+                    radius: 0.2,
+                    color: .cyan
+                )
+                scene.rootNode.addChildNode(lineNode)
             }
         }
-
-        // MARK: SceneKit Settings
-        
+    }
+    
+    private func configureSceneSettings(_ scene: SCNScene) {
         sceneKit.scene = scene
         sceneKit.autoenablesDefaultLighting = true
         sceneKit.allowsCameraControl = true
-        node.camera = SCNCamera()
-        node.position = SCNVector3Make(0, 0, 25)
-        scene.rootNode.addChildNode(node)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        sceneKit.addGestureRecognizer(tap)
-        
+        let cameraNode = SCNNode()
+        cameraNode.camera = SCNCamera()
+        cameraNode.position = SCNVector3Make(0, 0, 25)
+        scene.rootNode.addChildNode(cameraNode)
     }
     
-    @objc private func handleTap(sender:UITapGestureRecognizer) {
-        let location = sender.location(in: sceneKit)
-        let hits = sceneKit.hitTest(location, options: nil)
-        if !hits.isEmpty {
-            let tapNode = hits.first?.node
-            let position = tapNode!.position
-            
-            guard let atom = atoms.filter({ $0.x == position.x && $0.y == position.y }).first else {
-                return
-            }
-            let chemicalElement = JSONParser().parse(elementType: atom.type)
-            
-            isLabelHidden(false, element: chemicalElement)
+    private func addTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleSceneTap))
+        sceneKit.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func handleSceneTap(_ gestureRecognizer: UIGestureRecognizer) {
+        let location = gestureRecognizer.location(in: sceneKit)
+        let hitResults = sceneKit.hitTest(location, options: [:])
+        
+        guard let result = hitResults.first else {
+            hideElementLabels(true, element: nil)
+            return
+        }
+        
+        let position = result.worldCoordinates
+        
+        // Find the atom at this position
+        if let atom = findAtom(at: position) {
+            displayAtomInformation(for: atom)
         } else {
-            isLabelHidden(true, element: nil)
+            hideElementLabels(true, element: nil)
         }
     }
     
-    private func isLabelHidden(_ isHidden: Bool, element: ChemicalElement?) {
+    private func findAtom(at position: SCNVector3) -> Atom? {
+        let tolerance: Float = 1.0
+        
+        return atoms.first { atom in
+            let distance = sqrt(
+                pow(atom.x - position.x, 2) +
+                pow(atom.y - position.y, 2) +
+                pow(atom.z - position.z, 2)
+            )
+            return distance <= tolerance
+        }
+    }
+    
+    private func displayAtomInformation(for atom: Atom) {
+        guard let element = JSONParser().parse(elementType: atom.type) else {
+            hideElementLabels(true, element: nil)
+            return
+        }
+        
+        hideElementLabels(false, element: element)
+    }
+    
+    private func hideElementLabels(_ isHidden: Bool, element: ChemicalElement?) {
         symbolLabel.isHidden = isHidden
         nameLabel.isHidden = isHidden
         atomNumberLabel.isHidden = isHidden
         atomMassLabel.isHidden = isHidden
         summaryLabel.isHidden = isHidden
         
-        if !isHidden {
-            setupLabels(element: element!)
-        }
-    }
-    
-    private func setupLabels(element: ChemicalElement) {
+        guard let element = element, !isHidden else { return }
+        
         symbolLabel.text = element.symbol
         nameLabel.text = element.name
         atomNumberLabel.text = "Atomic Number: \(element.atomicNumber)"
         atomMassLabel.text = "Atomic Mass: \(element.atomicMass)"
         summaryLabel.text = element.summary
     }
-    
-    
 }
